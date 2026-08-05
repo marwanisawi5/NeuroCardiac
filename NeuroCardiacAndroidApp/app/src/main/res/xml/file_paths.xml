@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- This allows the camera to save the photo directly into your app's temporary cache -->
+    <cache-path name="cache_images" path="." />
+</paths>
