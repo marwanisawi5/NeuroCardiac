@@ -1,0 +1,19 @@
+# NeuroCardiac Backend — inference API dependencies
+# Install:  pip install -r requirements.txt
+
+# --- Web framework ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+python-multipart==0.0.20        # required by FastAPI for multipart file uploads
+python-dotenv==1.0.1            # loads configuration from .env
+
+# --- Deep learning (brain tumor CNN) ---
+tensorflow==2.18.0
+pillow==11.1.0
+numpy==1.26.4
+
+# --- Machine learning (heart disease SVC) ---
+scikit-learn==1.6.1
+pandas==2.2.3
+joblib==1.4.2

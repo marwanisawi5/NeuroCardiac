@@ -8,11 +8,16 @@ import io
 import joblib
 import pandas as pd
 import asyncio
+import os
+from dotenv import load_dotenv
+
+# Load configuration from .env (see .env.example)
+load_dotenv()
 
 app = FastAPI(title="Brain Tumor & Heart Disease AI API")
 
 # Deep Learning Model (Brain Tumor)
-BRAIN_MODEL_PATH = "models/deep_learning_model.h5"
+BRAIN_MODEL_PATH = os.getenv("BRAIN_MODEL_PATH", "models/deep_learning_model.h5")
 try:
     model = tf.keras.models.load_model(BRAIN_MODEL_PATH)
     print("Brain Tumor Model loaded successfully")
@@ -20,7 +25,7 @@ except Exception as e:
     print(f"Error loading model: {e}")
 
 # Machine Learning Model (Heart Disease)
-HEART_MODEL_PATH = "models/model_learning_model.pkl"
+HEART_MODEL_PATH = os.getenv("HEART_MODEL_PATH", "models/model_learning_model.pkl")
 try:
     heart_data = joblib.load(HEART_MODEL_PATH)
     heart_model = heart_data['model']
@@ -108,4 +113,6 @@ async def predict_heart(data: HeartClinicalData):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)

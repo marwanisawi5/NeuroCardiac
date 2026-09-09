@@ -36,9 +36,11 @@ interface AiModelApi {
     suspend fun predictHeart(@Body request: HeartDiseaseRequest): PredictionResponse
 }
 object RetrofitClient {
-    // Android Emulator -> "http://10.0.2.2:8000/"
-    // Physical Phone -> "http://PC_IPV4:8000/"
-    private const val BASE_URL = "http://192.168.1.4:8000/"
+    // Configured via NEUROCARDIAC_BASE_URL in local.properties or gradle.properties.
+    //   Android Emulator -> "http://10.0.2.2:8000/"
+    //   Physical Phone   -> "http://<YOUR_PC_IPV4>:8000/"
+    // Defaults to the emulator loopback address if unset. See README.
+    private val BASE_URL = BuildConfig.BASE_URL
 
     val apiService: AiModelApi by lazy {
         Retrofit.Builder()
