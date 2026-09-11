@@ -1,3 +1,16 @@
+import java.util.Properties
+
+// Resolve the backend URL from local.properties (untracked) or gradle.properties,
+// falling back to the standard Android emulator loopback address.
+val baseUrl: String = run {
+    val localProps = Properties().apply {
+        rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+    }
+    localProps.getProperty("NEUROCARDIAC_BASE_URL")
+        ?: project.findProperty("NEUROCARDIAC_BASE_URL") as String?
+        ?: "http://10.0.2.2:8000/"
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -20,6 +33,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }
 
     buildTypes {
@@ -35,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
